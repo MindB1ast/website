@@ -1,0 +1,8 @@
+beautifulsoup4==4.10.0
+Flask==0.12.2
+keras==2.7.0
+numpy==1.21.4
+opencv_python==4.5.4.60
+requests==2.26.0
+tensorflow==2.7.0
+tensorflow_gpu==2.7.0
