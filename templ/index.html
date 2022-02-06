@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>
+    Проверка паспорта
+  </title>
+<!-- скрипт, который обработает нажатие на кнопку и отправит данные на сервер -->
+<script type="text/javascript">
+  // эта функция сработает при нажатии на кнопку
+  function sendJSON() {
+    // с помощью jQuery обращаемся к элементам на странице по их именам
+    let name = document.querySelector('#name');
+    let lastname = document.querySelector('#lastname');
+    // а вот сюда мы поместим ответ от сервера
+    let result = document.querySelector('.result');
+    // создаём новый экземпляр запроса XHR
+    let xhr = new XMLHttpRequest();
+    // адрес, куда мы отправим нашу JSON-строку
+    let url = "http://127.0.0.1:5000/num2text/";
+    // открываем соединение
+    xhr.open("POST", url, true);
+    // устанавливаем заголовок — выбираем тип контента, который отправится на сервер, в нашем случае мы явно пишем, что это JSON
+    xhr.setRequestHeader("Content-Type", "application/json");
+    // когда придёт ответ на наше обращение к серверу, мы его обработаем здесь
+    xhr.onreadystatechange = function () {
+      // если запрос принят и сервер ответил, что всё в порядке
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        // выводим то, что ответил нам сервер — так мы убедимся, что данные он получил правильно
+	let jso=JSON.parse(this.responseText);
+	result.innerHTML=jso.str
+        //result.innerHTML = jsdecode(this.responseText);
+	//alert(this.responseText);
+      }
+    };
+    // преобразуем наши данные JSON в строку
+    var data = JSON.stringify({ "number": name.value,"series": lastname.value });
+    // когда всё готово, отправляем JSON на сервер
+    xhr.send(data);
+  }
+
+function jsdecode(text) {
+		
+		var v = text
+		v = v.split("\\").join("%");
+		return unescape(v);
+	}
+
+
+function Valid() {
+    var ser = /^\d{4}$/g;
+    var numb= /^\d{6}$/g;
+    var series_znach = document.querySelector('#lastname');
+    var number_znach = document.querySelector('#name');
+    var valid_ser = ser.test(series_znach.value);
+
+    var valid_numb= numb.test(number_znach.value);
+
+    if (valid_ser==true && valid_numb==true)
+    sendJSON()
+    else
+    alert('Не правильно введена форма')
+}  
+</script>
+
+</head>
+<body style="text-align:center;" id="body">
+  <!-- заголовок -->
+  <h1> Проверить паспорт на действительность </h1>
+  <!-- делаем форму с полями ввода -->
+  <p>
+    <input type="text" id="lastname" placeholder="Серия" required>
+    <input type="text" id="name" placeholder="Номер" required>
+    <!-- по нажатию на эту кнопку данные уйдут на сервер -->
+    <button onclick="Valid()">Отправить</button>
+    <!-- а вот тут они появятся снова, но уже после обработки сервером -->
+  <p class="result" style="color:blue"></p>
+  </p>
+</body>
+</html>
