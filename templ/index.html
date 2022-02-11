@@ -59,7 +59,22 @@ function Valid() {
     sendJSON()
     else
     alert('Не правильно введена форма')
-}  
+}
+
+var form = document.getElementById('myForm'); // give the form an ID
+var xhr  = new XMLHttpRequest();              // create XMLHttpRequest
+var data = new FormData(form);                // create formData object
+
+
+xhr.onload = function() {
+    console.log(this.responseText); // whatever the server returns
+}
+
+xhr.open("post", form.action);      // open connection
+xhr.send(data);                     // send data
+
+
+  
 </script>
 
 </head>
@@ -75,5 +90,12 @@ function Valid() {
     <!-- а вот тут они появятся снова, но уже после обработки сервером -->
   <p class="result" style="color:blue"></p>
   </p>
+  <p>
+<form id="myForm" action="http://127.0.0.1:5000/excel/" enctype="multipart/form-data" method="post">
+   <!--<p><input type="file" name="f">-->
+   <p><input type="file" name="file" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" >
+   <input type="submit" value="Отправить"></p>
+  </form> 
+</p>
 </body>
 </html>
