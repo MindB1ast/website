@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>
+    Оформление excel
+  </title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="sc.js"></script>
+</head>
+<body id="body">
+<button class="custom-btn btn-7" onclick="history.back();"><span>Назад</span></button>
+<p>Чтобы воспользоваться функцией проверки группы паспортов, вам понадобиться привести excel файл к нужному формату</p>
+<p>Столбец с B2 по Bn должен быть заполнен сериями паспортов</p>
+<p>Столбец с C2 по Cn должен быть заполнен номерами паспортов</p>
+<p>Пример оформления можно скачать по данной <a href={{ url_for('static', filename='file.xlsx') }} download="Acme Documentation (ver. 2.0.1).txt">ссылке</a></p>
+<canvas id="c"></canvas>
+</body></html>

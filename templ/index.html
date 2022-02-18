@@ -4,6 +4,7 @@
   <title>
     Проверка паспорта
   </title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <!-- скрипт, который обработает нажатие на кнопку и отправит данные на сервер -->
 <script type="text/javascript">
   // эта функция сработает при нажатии на кнопку
@@ -27,6 +28,9 @@
       if (xhr.readyState === 4 && xhr.status === 200) {
         // выводим то, что ответил нам сервер — так мы убедимся, что данные он получил правильно
 	let jso=JSON.parse(this.responseText);
+	if (jso.str==true) result.innerHTML="С паспортом всё впорядке"
+	else if (jso.str==false) result.innerHTML="С паспортом проблемы"
+	else
 	result.innerHTML=jso.str
         //result.innerHTML = jsdecode(this.responseText);
 	//alert(this.responseText);
@@ -74,28 +78,35 @@ xhr.open("post", form.action);      // open connection
 xhr.send(data);                     // send data
 
 
-  
 </script>
 
 </head>
 <body style="text-align:center;" id="body">
   <!-- заголовок -->
+
+  
   <h1> Проверить паспорт на действительность </h1>
   <!-- делаем форму с полями ввода -->
-  <p>
+
+  <p class="form-style-9">
+Введите серию и номер паспорта<br>
     <input type="text" id="lastname" placeholder="Серия" required>
     <input type="text" id="name" placeholder="Номер" required>
     <!-- по нажатию на эту кнопку данные уйдут на сервер -->
     <button onclick="Valid()">Отправить</button>
     <!-- а вот тут они появятся снова, но уже после обработки сервером -->
-  <p class="result" style="color:blue"></p>
+    <!--<div class="form-style-9"><p class="result"></p></div>-->
+ <span class="result"></span>
   </p>
+
   <p>
-<form id="myForm" action="http://127.0.0.1:5000/excel/" enctype="multipart/form-data" method="post">
+<form id="myForm" class="form-style-9" action="http://127.0.0.1:5000/excel/" enctype="multipart/form-data" method="post">
    <!--<p><input type="file" name="f">-->
+Проверка нескольких паспортов в excel таблице<br>
    <p><input type="file" name="file" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" >
    <input type="submit" value="Отправить"></p>
-  </form> 
+<p>Внимание, что бы получить коректный ответ excel файл должен соответствовать <a href={{ url_for('help') }}>требованиям</a></p> 
+  </form>
 </p>
 </body>
 </html>

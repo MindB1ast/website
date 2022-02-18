@@ -67,7 +67,10 @@ def work_with_excel():
         return send_from_directory(path='.', directory='uploads', filename='file.xlsx')#""#redirect(url_for('download')) #<a href="{{ url_for('download', filename="downloadFile.txt") }}">File</a>
     return render_template('index.html')
 
-
+@app.route('/help/', methods=['GET'])
+def help():
+    if request.method == 'GET':
+        return render_template('help.html')
 
     
 if __name__ == '__main__':
